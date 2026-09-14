@@ -1,0 +1,344 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Student Dashboard - AI College Assistant</title>
+
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: #f3f4f6;
+            margin: 0;
+        }
+
+        header {
+            background: #111827;
+            color: white;
+            padding: 25px;
+            text-align: center;
+        }
+
+        header h1 {
+            margin: 0 0 8px;
+        }
+
+        .welcome {
+            color: #d1d5db;
+        }
+
+        .nav {
+            margin-top: 20px;
+        }
+
+        .nav a {
+            display: inline-block;
+            text-decoration: none;
+            padding: 10px 18px;
+            margin: 5px;
+            border-radius: 8px;
+            font-weight: bold;
+        }
+
+        .ai-button {
+            background: white;
+            color: #111827;
+        }
+
+        .logout {
+            background: #dc2626;
+            color: white;
+        }
+
+        .container {
+            width: 90%;
+            max-width: 1000px;
+            margin: 30px auto;
+        }
+
+        .card {
+            background: white;
+            padding: 20px;
+            margin-bottom: 20px;
+            border-radius: 12px;
+            box-shadow: 0 3px 10px rgba(0,0,0,0.1);
+        }
+
+        h2 {
+            color: #111827;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        th,
+        td {
+            padding: 12px;
+            border-bottom: 1px solid #ddd;
+            text-align: left;
+        }
+
+        th {
+            background: #f3f4f6;
+        }
+    </style>
+</head>
+
+<body>
+
+<header>
+
+    <h1>🎓 Student Dashboard</h1>
+
+    <p class="welcome">
+        Welcome, {{ request.user.username }}
+    </p>
+
+    <div class="nav">
+
+        <a href="{% url 'ai_assistant' %}" class="ai-button">
+            🤖 AI Assistant
+        </a>
+
+        <a href="{% url 'logout' %}" class="logout">
+            🚪 Logout
+        </a>
+
+    </div>
+
+</header>
+
+
+<div class="container">
+
+
+    <!-- ATTENDANCE -->
+
+    <div class="card">
+
+        <h2>📊 Attendance</h2>
+
+        <table>
+
+            <tr>
+                <th>Subject</th>
+                <th>Attended</th>
+                <th>Total</th>
+            </tr>
+
+            {% for item in attendance %}
+
+            <tr>
+                <td>{{ item.subject }}</td>
+                <td>{{ item.attended_classes }}</td>
+                <td>{{ item.total_classes }}</td>
+            </tr>
+
+            {% empty %}
+
+            <tr>
+                <td colspan="3">
+                    No attendance data available.
+                </td>
+            </tr>
+
+            {% endfor %}
+
+        </table>
+
+    </div>
+
+
+    <!-- INTERNAL MARKS -->
+
+    <div class="card">
+
+        <h2>📝 Internal Marks</h2>
+
+        <table>
+
+            <tr>
+                <th>Subject</th>
+                <th>Marks</th>
+            </tr>
+
+            {% for item in marks %}
+
+            <tr>
+                <td>{{ item.subject }}</td>
+                <td>{{ item.marks }}</td>
+            </tr>
+
+            {% empty %}
+
+            <tr>
+                <td colspan="2">
+                    No internal marks available.
+                </td>
+            </tr>
+
+            {% endfor %}
+
+        </table>
+
+    </div>
+
+
+    <!-- TIMETABLE -->
+
+    <div class="card">
+
+        <h2>📅 Timetable</h2>
+
+        <table>
+
+            <tr>
+                <th>Day</th>
+                <th>Time</th>
+                <th>Subject</th>
+                <th>Room</th>
+            </tr>
+
+            {% for item in timetable %}
+
+            <tr>
+                <td>{{ item.day }}</td>
+                <td>{{ item.time }}</td>
+                <td>{{ item.subject }}</td>
+                <td>{{ item.room }}</td>
+            </tr>
+
+            {% empty %}
+
+            <tr>
+                <td colspan="4">
+                    No timetable available.
+                </td>
+            </tr>
+
+            {% endfor %}
+
+        </table>
+
+    </div>
+
+
+    <!-- EXAM SCHEDULE -->
+
+    <div class="card">
+
+        <h2>📚 Exam Schedule</h2>
+
+        <table>
+
+            <tr>
+                <th>Exam</th>
+                <th>Subject</th>
+                <th>Date</th>
+                <th>Time</th>
+                <th>Room</th>
+            </tr>
+
+            {% for item in exams %}
+
+            <tr>
+                <td>{{ item.exam_name }}</td>
+                <td>{{ item.subject }}</td>
+                <td>{{ item.exam_date }}</td>
+                <td>{{ item.exam_time }}</td>
+                <td>{{ item.room }}</td>
+            </tr>
+
+            {% empty %}
+
+            <tr>
+                <td colspan="5">
+                    No exam schedule available.
+                </td>
+            </tr>
+
+            {% endfor %}
+
+        </table>
+
+    </div>
+
+
+    <!-- ASSIGNMENTS -->
+
+    <div class="card">
+
+        <h2>📋 Assignments</h2>
+
+        <table>
+
+            <tr>
+                <th>Subject</th>
+                <th>Assignment</th>
+                <th>Due Date</th>
+            </tr>
+
+            {% for item in assignments %}
+
+            <tr>
+                <td>{{ item.subject }}</td>
+                <td>{{ item.title }}</td>
+                <td>{{ item.due_date }}</td>
+            </tr>
+
+            {% empty %}
+
+            <tr>
+                <td colspan="3">
+                    No assignments available.
+                </td>
+            </tr>
+
+            {% endfor %}
+
+        </table>
+
+    </div>
+
+
+    <!-- STUDY MATERIALS -->
+
+    <div class="card">
+
+        <h2>📖 Study Materials</h2>
+
+        <table>
+
+            <tr>
+                <th>Subject</th>
+                <th>Title</th>
+                <th>Description</th>
+            </tr>
+
+            {% for item in study_materials %}
+
+            <tr>
+                <td>{{ item.subject }}</td>
+                <td>{{ item.title }}</td>
+                <td>{{ item.description }}</td>
+            </tr>
+
+            {% empty %}
+
+            <tr>
+                <td colspan="3">
+                    No study materials available.
+                </td>
+            </tr>
+
+            {% endfor %}
+
+        </table>
+
+    </div>
+
+
+</div>
+
+</body>
+</html>

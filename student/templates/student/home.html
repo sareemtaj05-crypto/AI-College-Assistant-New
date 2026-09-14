@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>AI College Assistant</title>
+
+    <style>
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background: linear-gradient(135deg, #111827, #374151);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .container {
+            background: white;
+            width: 420px;
+            padding: 45px;
+            border-radius: 20px;
+            text-align: center;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+        }
+
+        h1 {
+            margin-bottom: 10px;
+        }
+
+        .subtitle {
+            color: #666;
+            margin-bottom: 30px;
+        }
+
+        .button {
+            display: block;
+            text-decoration: none;
+            padding: 15px;
+            margin: 15px 0;
+            border-radius: 10px;
+            font-size: 17px;
+            font-weight: bold;
+        }
+
+        .student {
+            background: #111827;
+            color: white;
+        }
+
+        .admin {
+            background: #e5e7eb;
+            color: #111827;
+        }
+
+        .button:hover {
+            opacity: 0.85;
+        }
+    </style>
+</head>
+
+<body>
+
+<div class="container">
+
+    <h1>🎓 AI College Assistant</h1>
+
+    <p class="subtitle">
+        Your smart college companion
+    </p>
+
+    <a href="{% url 'login' %}" class="button student">
+        🎓 Student Login
+    </a>
+
+    <a href="/admin/" class="button admin">
+        🔐 Admin Login
+    </a>
+
+</div>
+
+</body>
+</html>
