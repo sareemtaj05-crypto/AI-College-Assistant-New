@@ -1,9 +1,9 @@
 from django.shortcuts import render, redirect
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
-from groq import Groq
-from django.conf import settings
 from django.contrib.auth.models import User
+from django.conf import settings
+from groq import Groq
 
 from .models import (
     StudentProfile,
@@ -55,14 +55,8 @@ def logout_view(request):
 
 @login_required
 def dashboard(request):
-    attendance = Attendance.objects.filter(
-        student=request.user
-    )
-
-    marks = InternalMark.objects.filter(
-        student=request.user
-    )
-
+    attendance = Attendance.objects.filter(student=request.user)
+    marks = InternalMark.objects.filter(student=request.user)
     timetable = Timetable.objects.all()
     exams = ExamSchedule.objects.all()
     assignments = Assignment.objects.all()
@@ -86,21 +80,14 @@ def dashboard(request):
 def ai_assistant(request):
     answer = None
 
-    attendance = Attendance.objects.filter(
-        student=request.user
-    )
-
-    marks = InternalMark.objects.filter(
-        student=request.user
-    )
-
+    attendance = Attendance.objects.filter(student=request.user)
+    marks = InternalMark.objects.filter(student=request.user)
     timetable = Timetable.objects.all()
     exams = ExamSchedule.objects.all()
     assignments = Assignment.objects.all()
     study_materials = StudyMaterial.objects.all()
 
     attendance_data = ""
-
     for item in attendance:
         attendance_data += (
             f"{item.subject}: "
@@ -109,14 +96,10 @@ def ai_assistant(request):
         )
 
     marks_data = ""
-
     for item in marks:
-        marks_data += (
-            f"{item.subject}: {item.marks} marks\n"
-        )
+        marks_data += f"{item.subject}: {item.marks} marks\n"
 
     timetable_data = ""
-
     for item in timetable:
         timetable_data += (
             f"{item.day} - {item.time} - "
@@ -124,7 +107,6 @@ def ai_assistant(request):
         )
 
     exam_data = ""
-
     for item in exams:
         exam_data += (
             f"{item.exam_name} - {item.subject} - "
@@ -133,29 +115,23 @@ def ai_assistant(request):
         )
 
     assignment_data = ""
-
     for item in assignments:
         assignment_data += (
             f"{item.subject} - "
-            f"{item.title} - "
-            f"Due: {item.due_date}\n"
+            f"{item.title} - Due: {item.due_date}\n"
         )
 
     study_material_data = ""
-
     for item in study_materials:
         study_material_data += (
             f"{item.subject} - "
-            f"{item.title} - "
-            f"{item.description}\n"
+            f"{item.title} - {item.description}\n"
         )
 
     if request.method == "POST":
         question = request.POST.get("question")
 
-        client = Groq(
-            api_key=settings.GROQ_API_KEY
-        )
+        client = Groq(api_key=settings.GROQ_API_KEY)
 
         system_prompt = f"""
 You are an AI College Assistant.
@@ -187,21 +163,13 @@ STUDY MATERIALS:
 Important rules:
 
 1. If the student asks about their attendance, use the attendance data above.
-
 2. If the student asks about their marks, use the marks data above.
-
 3. If the student asks about timetable, use the timetable data above.
-
 4. If the student asks about exams, use the exam schedule above.
-
 5. If the student asks about assignments, use the assignment data above.
-
 6. If the student asks about study materials, use the study material data above.
-
 7. Do not invent student-specific information.
-
 8. If information is not available in the database, clearly say that it is not available.
-
 9. Answer in a clear, simple and friendly way.
 """
 
@@ -224,10 +192,10 @@ Important rules:
     return render(
         request,
         "student/ai.html",
-        {
-            "answer": answer,
-        }
+        {"answer": answer}
     )
+
+
 def create_student(request):
     student, created = User.objects.get_or_create(
         username="Student01"
