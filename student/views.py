@@ -3,6 +3,7 @@ from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
 from groq import Groq
 from django.conf import settings
+from django.contrib.auth.models import User
 
 from .models import (
     StudentProfile,
@@ -227,3 +228,15 @@ Important rules:
             "answer": answer,
         }
     )
+def create_student(request):
+    student, created = User.objects.get_or_create(
+        username="Student01"
+    )
+
+    student.set_password("Student@12345")
+    student.is_active = True
+    student.is_staff = False
+    student.is_superuser = False
+    student.save()
+
+    return redirect("login")
